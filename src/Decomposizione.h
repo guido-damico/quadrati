@@ -2,22 +2,29 @@
  * decomposizione.h
  *
  *  Created on: Mar 15, 2020
- *      Author: guido
+ *      Author: Guido
  */
+#include <iostream>
+#include <cmath>
+#include <cassert>
+
+#include "spdlog/spdlog.h"
 
 #ifndef DECOMPOSIZIONE_H_
 #define DECOMPOSIZIONE_H_
+
+using namespace std;
 
 namespace quadrati {
 
     class Decomposizione {
         private:
-            long int  obiettivo;
-            long int* addendi;
-            long int  resto;
+            long obiettivo;
+            long* addendi;
+            long resto;
             int  livello;
             bool completa;
-            long int  iterazione;
+            long iterazione;
 
             void basicInit(long);
 
@@ -26,24 +33,28 @@ namespace quadrati {
             Decomposizione(long);
             virtual ~Decomposizione();
 
-            long int getObiettivo();
+            long getObiettivo();
             void setObiettivo(long);
 
             long* getAddendi();
-            void setAddendi(long*);
+            void  setAddendo(int, long);
+            void  setAllAddendi(long*);
 
             bool getCompleta();
             void setCompleta(bool);
 
-            long int getResto();
-            void setResto(long int);
-
             int getLivello();
             void setLivello(int);
 
-            long int getIterazione();
-            void setIterazione(long int);
+            long getIterazione();
+            void setIterazione(long);
 
+            long getResto();
+            long sommaQuadratiAddendi();
+
+            void outputCurrentStatus();
+
+            bool controllaInvarianti();
     };
 
 } /* namespace quadrati */
