@@ -45,6 +45,14 @@ namespace quadrati {
         return;
     }
 
+    long* Decomposizione::getLimiti() {
+        return this->limiti;
+    }
+    void Decomposizione::setLimite(int index, long limite) {
+        this->limiti[index] = limite;
+        return;
+    }
+
     bool Decomposizione::getCompleta() {
         return this->completa;
     }
@@ -85,7 +93,7 @@ namespace quadrati {
     }
 
     void Decomposizione::outputCurrentStatus() {
-    	spdlog::trace("Obiettivo  : {0}\n\t\t\t\tIterazione : {1}\n\t\t\t\tLivello    : {2}\n\t\t\t\tAddendi    :({3}, {4}, {5}, {6}), \n\t\t\t\tResto:     {7}\n\t\t\t\tCompleta    : {8}.",
+    	spdlog::trace("Obiettivo  : {0}\n\t\t\t\tIterazione : {1}\n\t\t\t\tLivello    : {2}\n\t\t\t\tAddendi    : ({3}, {4}, {5}, {6}), \n\t\t\t\tResto      : {7}\n\t\t\t\tCompleta   : {8}.",
     			this->getObiettivo(),
 				this->getIterazione(),
 				this->getLivello(),
@@ -103,6 +111,7 @@ namespace quadrati {
 
     void Decomposizione::basicInit(long obiettivo) {
         addendi = new long[4]();
+        limiti = new long[4]();
 		this->iterazione = 0 ;
         this->completa = false;
         this->resto = -1;

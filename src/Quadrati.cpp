@@ -35,6 +35,12 @@ namespace quadrati {
         long nuovoAddendo = stimaNuovoAddendo(deco);
         deco.getAddendi()[livelloAttuale] = nuovoAddendo;
 
+        long limite = (long) sqrt(deco.getResto());
+        if (limite > deco.getLimiti()[livelloAttuale]) {
+        	deco.setLimite(deco.getLivello(), limite);
+        	spdlog::trace("Livello {2}, Iterazione {1}, Limite per {0}: {3}", nuovoAddendo, deco.getIterazione(), deco.getLivello(), limite);
+    	}
+
         long nuovoResto = deco.getResto();
         spdlog::debug("Nuovo addendo: {0}, nuovo resto: {1}.", deco.getAddendi()[livelloAttuale], deco.getResto());
 
@@ -73,7 +79,7 @@ namespace quadrati {
 					 *          se non completa, cala di uno
 					 *          se non puoi calare di uno metti a zero e ritorna
 					 */
-					for (long valoreAttuale = nuovoAddendo; (!deco.getCompleta()) && valoreAttuale > 0; valoreAttuale--) {
+					for (long valoreAttuale = nuovoAddendo; (!deco.getCompleta()) && valoreAttuale > 0 && valoreAttuale >= limite; valoreAttuale--) {
 						// Memorizza il valore più recente al livello attuale
 						deco.getAddendi()[livelloAttuale] = valoreAttuale;
 

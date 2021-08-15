@@ -21,6 +21,7 @@ namespace quadrati {
         private:
             long obiettivo;
             long* addendi;
+            long* limiti;
             long resto;
             int  livello;
             bool completa;
@@ -39,6 +40,9 @@ namespace quadrati {
             long* getAddendi();
             void  setAddendo(int, long);
             void  setAllAddendi(long*);
+
+            long* getLimiti();
+            void  setLimite(int, long);
 
             bool getCompleta();
             void setCompleta(bool);

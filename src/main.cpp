@@ -22,7 +22,7 @@ void sleepNow(unsigned millis) {
  * Inizializza il logging
  */
 void initLogger() {
-	spdlog::set_level(spdlog::level::trace);
+	spdlog::set_level(spdlog::level::off);
 	// spdlog::set_pattern("[%H:%M:%S.%e] [%l] %v");
 }
 
@@ -50,21 +50,16 @@ void stampaTesto(quadrati::Decomposizione& deco, long verifica) {
     }
 }
 
-string stampaCsv(quadrati::Decomposizione& deco, long verifica) {
-    char out[80];
-
+void stampaCsv(quadrati::Decomposizione& deco, long verifica) {
     const char* check = (verifica == 0 ? "OK" : "ERRORE!");
-    sprintf(out, "%ld, %ld, %ld, %ld, %ld, %ld, %s\n",
-            deco.getObiettivo(),
-            deco.getAddendi()[0],
-            deco.getAddendi()[1],
-            deco.getAddendi()[2],
-            deco.getAddendi()[3],
-            deco.getIterazione(),
-            check
-            );
 
-    return out;
+    cout << to_string(deco.getObiettivo()) << ", " <<
+    		to_string(deco.getAddendi()[0]) << ", " <<
+			to_string(deco.getAddendi()[1]) << ", " <<
+			to_string(deco.getAddendi()[2]) << ", " <<
+			to_string(deco.getAddendi()[3]) << ", " <<
+			to_string(deco.getIterazione()) << ", " <<
+			check << "\n";
 }
 
 /*
@@ -93,7 +88,7 @@ int main(int argc, char **argv)
     // Controlla i parametri in ingresso
     if (argc > 3) {
     	cerr << "Uso: quadrati [[valore_iniziale] valore_finale]\n\t"
-    		 << "Con valore_iniziale intero positivo e minore di valore_finale";
+    		 << "Con valore_iniziale intero positivo e minore di valore_finale\n";
     	exit(-99);
 
     } else if (argc == 2) {
@@ -128,7 +123,7 @@ int main(int argc, char **argv)
 	    // Verifica
         spdlog::info("Verifica:");
         stampaTesto(deco, verifica);
-        cout << stampaCsv(deco, verifica);
+        stampaCsv(deco, verifica);
 	}
 
     return 0;
