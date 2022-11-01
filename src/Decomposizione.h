@@ -56,6 +56,7 @@ namespace quadrati {
             long getResto();
             long sommaQuadratiAddendi();
 
+            void nuovaIterazione();
             void outputCurrentStatus();
 
             bool controllaInvarianti();

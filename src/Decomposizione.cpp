@@ -92,15 +92,24 @@ namespace quadrati {
         return somma;
     }
 
+    void Decomposizione::nuovaIterazione() {
+        this->outputCurrentStatus();
+        this->setIterazione(this->getIterazione() + 1);
+    }
+
     void Decomposizione::outputCurrentStatus() {
-    	spdlog::trace("Obiettivo  : {0}\n\t\t\t\tIterazione : {1}\n\t\t\t\tLivello    : {2}\n\t\t\t\tAddendi    : ({3}, {4}, {5}, {6}), \n\t\t\t\tResto      : {7}\n\t\t\t\tCompleta   : {8}.",
+    	spdlog::trace("Obiettivo  : {0}\n\t\t\t\tIterazione : {1}\n\t\t\t\tLivello    : {2}\n\t\t\t\tAddendi    : ({3}, {4}, {5}, {6}), \n\t\t\t\tLimiti     : [{7}, {8}, {9}, {10}], \n\t\t\t\tResto      : {11}\n\t\t\t\tCompleta   : {12}.",
     			this->getObiettivo(),
 				this->getIterazione(),
 				this->getLivello(),
-				this->getAddendi()[0],
-				this->getAddendi()[1],
-				this->getAddendi()[2],
-				this->getAddendi()[3],
+                this->getAddendi()[0],
+                this->getAddendi()[1],
+                this->getAddendi()[2],
+                this->getAddendi()[3],
+                this->getLimiti()[0],
+                this->getLimiti()[1],
+                this->getLimiti()[2],
+                this->getLimiti()[3],
 				this->getResto(),
 				this->getCompleta()
 				);

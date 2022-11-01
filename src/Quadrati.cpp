@@ -33,9 +33,7 @@ namespace quadrati {
         }
 
         // Nuova iterazione
-        deco.setIterazione(deco.getIterazione() + 1);
-        spdlog::debug("Inizio iterazione {0}, livello {1}, obiettivo {2}.", deco.getIterazione(), deco.getLivello(), deco.getObiettivo());
-        //deco.outputCurrentStatus();
+        deco.nuovaIterazione();
 
         // Il livello a cui opero
         int livelloAttuale = deco.getLivello();
@@ -82,7 +80,6 @@ namespace quadrati {
 
                     // riprova usando un nuovo addendo al livello superiore
                     deco.setLivello(livelloAttuale - 1);
-                    deco.outputCurrentStatus();
                     break;
 
                 case 2:
@@ -102,7 +99,6 @@ namespace quadrati {
                         deco.setLivello(livelloAttuale + 1);
 
                         // Ricorsivamente calcola gli altri addendi
-                        deco.outputCurrentStatus();
                         deco = addendi(deco);
                     }
 
@@ -113,7 +109,6 @@ namespace quadrati {
                         // su di un livello
                         deco.setLivello(livelloAttuale - 1);
                     }
-                    //deco.outputCurrentStatus();
                     break;
 
                 default:
