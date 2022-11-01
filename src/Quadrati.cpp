@@ -23,47 +23,62 @@ namespace quadrati {
     Decomposizione Quadrati::addendi(Decomposizione& deco) {
         using quadrati::Decomposizione;
 
-        // Nuova iterazione
-        deco.setIterazione(deco.getIterazione() + 1);
-        spdlog::debug("Inizio iterazione {0}, livello {1}, obiettivo {2}.", deco.getIterazione(), deco.getLivello(), deco.getObiettivo());
-        //deco.outputCurrentStatus();
-
-        // Il livello a cui opero
-        int livelloAttuale = deco.getLivello();
-
-        // Calcola il nuovo valore di questo livello e il corrispondente nuovo resto
-        long nuovoAddendo = stimaNuovoAddendo(deco);
-        deco.getAddendi()[livelloAttuale] = nuovoAddendo;
-
-        long limite = (long) sqrt(deco.getResto());
-        if (limite > deco.getLimiti()[livelloAttuale]) {
-        	deco.setLimite(deco.getLivello(), limite);
-        	spdlog::trace("Livello {2}, Iterazione {1}, Limite per {0}: {3}", nuovoAddendo, deco.getIterazione(), deco.getLivello(), limite);
-    	}
-
-        long nuovoResto = deco.getResto();
-        spdlog::debug("Nuovo addendo: {0}, nuovo resto: {1}.", deco.getAddendi()[livelloAttuale], deco.getResto());
-
-		// Controlla dove siamo arrivati
-        if (nuovoResto == 0) {
-            // finito!
-            deco.setCompleta(true);
-            spdlog::info("Completata decomposizione di {0}.", deco.getObiettivo());
-
-            // Azzera i livelli rimanenti
-            for (int i = deco.getLivello() + 1; i < 4; i++) {
-            	deco.setAddendo(i, 0);
-            }
-            spdlog::debug("Azzerato i termini rimasti:");
+        // Check max iterazioni
+        if (deco.getIterazione() > MAX_ITERAZIONI){
+        	spdlog::critical("Troppe iterazioni per {0}: {1} oltre il limite, rinuncio!", deco.getObiettivo(), deco.getIterazione());
+        	deco.setCompleta(true);
             deco.outputCurrentStatus();
 
-        } else {
-        	// Resto non nullo: altro giro
+            return deco;
+        }
+
+		// Nuova iterazione
+		deco.setIterazione(deco.getIterazione() + 1);
+		spdlog::debug("Inizio iterazione {0}, livello {1}, obiettivo {2}.", deco.getIterazione(), deco.getLivello(), deco.getObiettivo());
+		//deco.outputCurrentStatus();
+
+		// Il livello a cui opero
+		int livelloAttuale = deco.getLivello();
+
+		// Calcola il nuovo valore di questo livello e il corrispondente nuovo resto
+		long nuovoAddendo = stimaNuovoAddendo(deco);
+		deco.setAddendo(livelloAttuale, nuovoAddendo);
+
+		long nuovoResto = deco.getResto();
+		spdlog::debug("Nuovo addendo: {0}, nuovo resto: {1}.", deco.getAddendi()[livelloAttuale], deco.getResto());
+
+		// Calcola il limite minimo per il prossimo addendo
+		long limite = (long) sqrt(deco.getResto());
+		if (limite > deco.getLimiti()[livelloAttuale]) {
+			deco.setLimite(deco.getLivello(), limite);
+			spdlog::trace("Limite per Livello {0}, Iterazione {1}, nuovo addendo {2}, resto {3}: {4}",
+					deco.getLivello(),
+					deco.getIterazione(),
+					nuovoAddendo,
+					deco.getResto(),
+					limite);
+		}
+
+		// Controlla dove siamo arrivati
+		if (nuovoResto == 0) {
+			// finito!
+			deco.setCompleta(true);
+			spdlog::info("Completata decomposizione di {0}.", deco.getObiettivo());
+
+			// Azzera i livelli rimanenti
+			for (int i = deco.getLivello() + 1; i < 4; i++) {
+				deco.setAddendo(i, 0);
+			}
+			spdlog::debug("Azzerato i termini rimasti:");
+			deco.outputCurrentStatus();
+
+		} else {
+			// Resto non nullo: altro giro
 			switch (deco.getLivello()) {
 				case 3:
 					// ultimo livello e decomposizione ancor invalida:
 					// azzera questo livello
-					deco.getAddendi()[livelloAttuale] = 0;
+					deco.setAddendo(livelloAttuale, 0);
 
 					// riprova usando un nuovo addendo al livello superiore
 					deco.setLivello(livelloAttuale - 1);
@@ -105,7 +120,7 @@ namespace quadrati {
 					spdlog::critical("ERRORE: Livello invalido: {0}.", deco.getLivello());
 					throw 10;
 			}
-        }
+		}
         return deco;
     }
 

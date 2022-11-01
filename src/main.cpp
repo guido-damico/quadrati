@@ -22,8 +22,8 @@ void sleepNow(unsigned millis) {
  * Inizializza il logging
  */
 void initLogger() {
-	spdlog::set_level(spdlog::level::off);
-	// spdlog::set_pattern("[%H:%M:%S.%e] [%l] %v");
+	spdlog::set_level(spdlog::level::trace);
+	spdlog::set_pattern("[%H:%M:%S.%e] [%l] %v");
 }
 
 /*

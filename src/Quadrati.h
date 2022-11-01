@@ -15,6 +15,8 @@
 
 using namespace std;
 
+#define MAX_ITERAZIONI 2000000000
+
 namespace quadrati {
 
     class Quadrati {
